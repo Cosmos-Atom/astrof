@@ -1,0 +1,21 @@
+pl_name,sy_vmag,pl_rade,pl_eqt,pl_orbper,disc_year,discoverymethod,soltype,default_flag,sy_snum,priority_score,observation_duration_min,deadline_time,priority_norm
+Kepler-1388 e,16.43,,,37.63436421,2016,Transit,Published Confirmed,0,1,7,90.0,,0.2
+WASP-2 b,11.728,,,2.15222231,2007,Transit,Published Confirmed,0,2,15,67.5,,0.52
+TOI-260 b,9.9,1.71,493.0,13.475853,2024,Transit,Published Confirmed,1,1,27,45.0,,1.0
+Kepler-436 b,15.971,2.339,,,2015,Transit,Published Confirmed,0,1,7,90.0,,0.2
+HD 108874 b,8.76,,,395.4,2002,Radial Velocity,Published Confirmed,0,1,17,45.0,,0.6
+Kepler-500 b,14.324,2.57,906.0,8.508324398,2016,Transit,Kepler Project Candidate (q1_q17_dr24_koi),0,1,7,90.0,,0.2
+Kepler-1830 b,13.605,2.13,530.0,56.4932269,2021,Transit,Kepler Project Candidate (q1_q17_dr24_koi),0,1,12,60.0,,0.4
+Kepler-267 d,16.69,2.01,303.0,28.46462622,2014,Transit,Kepler Project Candidate (q1_q17_dr24_koi),0,1,6,90.0,,0.16
+Kepler-122 d,14.403,1.52,670.0,21.5878875,2014,Transit,Kepler Project Candidate (q1_q17_dr24_koi),0,1,7,90.0,,0.2
+Kepler-223 e,15.69,31.46,692.0,19.7240891,2014,Transit,Kepler Project Candidate (q1_q17_dr24_koi),0,1,2,72.0,,0.0
+K2-274 b,13.181,2.41,,14.130142,2018,Transit,Published Candidate,0,1,9,60.0,,0.28
+K2-369 b,11.789,1.37311054,,5.761359,2022,Transit,Published Candidate,0,1,22,67.5,,0.8
+Kepler-1769 b,12.487,3.184,,89.1934705,2021,Transit,Published Candidate,0,1,12,60.0,,0.4
+K2-180 b,12.557,,,8.866,2018,Transit,Published Candidate,0,1,11,60.0,,0.36
+Kepler-209 b,14.132,2.242,,16.08786478,2014,Transit,Published Candidate,0,1,2,72.0,,0.0
+HAT-P-70 b,9.47,20.1852,2388.0,2.7443216,2019,Transit,TESS Project Candidate,0,1,16,45.0,2025-03-15 22:16:47,0.56
+HAT-P-23 b,11.937,14.10495771,1854.66,1.212913854,2010,Transit,TESS Project Candidate,0,1,11,45.0,,0.36
+HAT-P-46 b,11.997,13.39344025,1561.62,4.462664656,2014,Transit,TESS Project Candidate,0,1,11,45.0,,0.36
+TOI-172 b,11.299,9.80856,993.0,9.47686,2019,Transit,TESS Project Candidate,0,1,14,45.0,,0.48
+Kepler-45 b,16.744,12.99286305,756.75,2.455238834,2011,Transit,TESS Project Candidate,0,1,4,72.0,,0.08

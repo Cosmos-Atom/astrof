@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "astrof"
+version = "0.1.0"
+description = "ASTROF: Autonomous Scheduling Through Role-Oriented Federation — hierarchical multi-agent OpenEnv environment for telescope network scheduling"
+requires-python = ">=3.11"
+dependencies = [
+    "openenv-core",
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic>=2.0",
+    "pandas",
+    "numpy",
+    "astropy",
+    "openai",
+    "httpx",
+]
+
+[project.scripts]
+server = "server.app:main"
+
+[project.optional-dependencies]
+dev = ["pytest", "httpx"]

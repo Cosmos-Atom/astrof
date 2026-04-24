@@ -1,0 +1,15 @@
+{"role": "planner", "prompt": "p", "completion": "c", "reward": 0.5}
+{"role": "planner", "prompt": "p", "completion": "c", "reward": 0.5}
+{"role": "planner", "prompt": "p", "completion": "c", "reward": 0.5}
+{"role": "planner", "prompt": "test", "completion": "{\"targets\":[]}", "reward": 0.8}
+{"role": "coordinator", "prompt": "test", "completion": "{\"assignments\":[]}", "reward": 0.8}
+{"role": "planner", "prompt": "test", "completion": "{\"targets\":[]}", "reward": 0.8}
+{"role": "coordinator", "prompt": "test", "completion": "{\"assignments\":[]}", "reward": 0.8}
+{"role": "planner", "prompt": "test", "completion": "{\"targets\":[]}", "reward": 0.8}
+{"role": "coordinator", "prompt": "test", "completion": "{\"assignments\":[]}", "reward": 0.8}
+{"role": "planner", "prompt": "test", "completion": "{\"targets\":[]}", "reward": 0.8}
+{"role": "coordinator", "prompt": "test", "completion": "{\"assignments\":[]}", "reward": 0.8}
+{"role": "planner", "prompt": "test", "completion": "{\"targets\":[]}", "reward": 0.8}
+{"role": "coordinator", "prompt": "test", "completion": "{\"assignments\":[]}", "reward": 0.8}
+{"role": "planner", "prompt": "test", "completion": "{\"targets\":[]}", "reward": 0.8}
+{"role": "coordinator", "prompt": "test", "completion": "{\"assignments\":[]}", "reward": 0.8}

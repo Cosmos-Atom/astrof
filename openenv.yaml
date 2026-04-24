@@ -1,0 +1,21 @@
+spec_version: 1
+name: astrof
+description: "ASTROF: Autonomous Scheduling Through Role-Oriented Federation — hierarchical multi-agent telescope network for exoplanet observation. 5 agents (Science Planner, Network Coordinator, 3 Telescope Executors) coordinate under dynamic weather, transit deadlines, and cosmic emergencies."
+type: space
+runtime: fastapi
+app: server.app:app
+port: 7860
+url: https://Cosmosatom-astrof.hf.space
+tags:
+  - multi-agent
+  - scheduling
+  - astronomy
+  - reinforcement-learning
+  - long-horizon
+  - real-world
+  - openenv
+tasks:
+  - easy
+  - medium
+  - hard
+  - expert
