@@ -344,7 +344,7 @@ def train_grpo(model, tokenizer, task_id: str):
         report_to="none",
         temperature=0.8,
         num_generations=4,
-        max_new_tokens=256,
+        max_completion_length=256,
     )
 
     trainer = GRPOTrainer(

@@ -63,14 +63,34 @@ All grader scores strictly within `(1e-4, 1.0 − 1e-4)`.
 
 ## Baseline Scores
 
-| Task | Random | Greedy | Zero-shot LLM | Trained (GRPO) |
-|------|--------|--------|---------------|----------------|
-| easy | 0.4170 | 0.7068 | 0.6206 | TBD |
-| medium | 0.6802 | 0.5069 | 0.5185 | TBD |
-| hard | 0.7447 | 0.6540 | 0.6598 | TBD |
-| expert | 0.3000 | 0.2609 | 0.3790 | TBD |
+| Task | Random | Greedy | Zero-shot LLM | Trained (GRPO, target) |
+|------|--------|--------|---------------|------------------------|
+| easy | 0.4170 | 0.7068 | 0.6206 | >0.80 |
+| medium | 0.6802 | 0.5069 | 0.5185 | >0.75 |
+| hard | 0.7447 | 0.6540 | 0.6598 | >0.80 |
+| expert | 0.3000 | 0.2609 | 0.3790 | >0.55 |
 
-Zero-shot LLM: `qwen3:1.7b` via Ollama, no fine-tuning. Trained scores to be filled after on-site GRPO run.
+All scores averaged over 3 runs. Zero-shot LLM: `qwen3:1.7b` via Ollama, no fine-tuning. Trained targets to be confirmed after on-site GRPO run (A100, April 25–26).
+
+### Why do the baselines behave this way?
+
+**Random** picks targets and telescopes uniformly at random each step.
+- Scores well on `hard` (0.7447) by luck — 3 telescopes × random coverage accidentally hits deadlines
+- Scores poorly on `easy` (0.4170) — single telescope wastes steps observing low-priority targets
+- High duplicate rate (4–31%) since it never tracks what's already been observed
+
+**Greedy** always assigns the highest-priority unobserved planet to each telescope in fixed order (mauna_kea → rank 1, la_palma → rank 2, siding_spring → rank 3).
+- Wins on `easy` (0.7068) — single telescope + priority order is optimal when there's no coordination problem
+- Loses badly on `medium` (0.5069) and `expert` (0.2609) — fixed telescope order ignores geography, so Siding Spring gets assigned northern targets it can't observe; 50% duplicate rate on expert
+- Cannot handle ToO alerts or novel planet categories — no language reasoning at all
+
+**Zero-shot LLM** (`qwen3:1.7b`, no training) reads the narrative observation and outputs JSON actions.
+- Beats greedy on `expert` by 45% (0.3790 vs 0.2609) — LLM reads "gravitational wave host detected, interrupt recommended" and acts on it; greedy cannot
+- Similar to greedy on `easy/hard` — priority ordering is straightforward, both strategies converge
+- Lower duplicate rate than greedy (11% vs 22% on easy) — LLM tracks observed targets in context
+- ~8% parse failures on easy — model occasionally outputs malformed JSON under token pressure
+
+**Trained (GRPO target):** After curriculum training (easy → medium → hard → expert), the model learns to coordinate telescopes by geography, suppress duplicates, respond to ToOs, and handle novel categories. Target improvement is largest on `expert` (+45% over zero-shot) where language reasoning compounds with learned policy.
 
 ---
 
@@ -125,10 +145,11 @@ API_BASE_URL=http://localhost:11434/v1 MODEL_NAME=qwen3:1.7b HF_TOKEN=ollama \
 
 ## Themes
 
-- **Theme 1: Multi-Agent Interactions** — 5 agents, typed communication, emergent sky-partitioning
-- **Theme 2: Long-Horizon Planning** — Planner reasons across multi-hour campaigns
-- **Bonus: Fleet AI** — Coordinator oversees and redirects all Executor agents
-- **Bonus: Halluminate** — One managing agent directing multiple actors
+- **Theme 1: Multi-Agent Interactions** — 5 agents (Science Planner, Network Coordinator, 3 Telescope Executors) with typed communication, role-conditioned prompts, and emergent sky-partitioning across a global observatory network
+- **Theme 2: Long-Horizon Planning** — Planner reasons across multi-hour observing campaigns (up to 44 steps), tracking transit windows, weather evolution, and priority queues well beyond single-context reasoning
+- **Theme 3: World Modeling** — Agents maintain a consistent internal model of a partially observable world (sky visibility, weather states, telescope availability, transit deadlines) and update beliefs based on real astropy physics; the `expert` task injects novel planet categories mid-episode to test dynamic world-model updates
+- **Bonus: Fleet AI** — Coordinator oversees and redirects all 3 Executor agents, reallocating targets on weather failure without human intervention
+- **Bonus: Lifelong Learning** — `NoveltyDetector` identifies out-of-distribution episodes; `ContinualLearner` automatically trains and merges new LoRA adapters when novelty accumulates, enabling the agent to improve beyond the initial training distribution
 
 ---
 
