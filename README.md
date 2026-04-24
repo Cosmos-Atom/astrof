@@ -76,7 +76,7 @@ Zero-shot LLM: `qwen3:1.7b` via Ollama, no fine-tuning. Trained scores to be fil
 
 ## Training
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Cosmosatom/astrof/blob/main/train_astrof.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Cosmos-Atom/astrof/blob/main/train_astrof.ipynb)
 
 The training notebook [`train_astrof.ipynb`](train_astrof.ipynb) covers the full pipeline:
 1. SFT warm-start on 5,780 greedy-policy demonstrations
