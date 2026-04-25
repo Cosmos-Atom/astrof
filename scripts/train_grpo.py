@@ -216,7 +216,8 @@ def sft_warmstart(model, tokenizer):
             learning_rate=LR * 2,
             logging_steps=10,
             save_strategy="no",
-            bf16=True,
+            bf16=torch.cuda.is_available() and torch.cuda.get_device_capability()[0] >= 8,
+            fp16=torch.cuda.is_available() and torch.cuda.get_device_capability()[0] < 8,
             report_to="none",
         ),
         dataset_text_field="text",
@@ -317,18 +318,34 @@ def train_grpo(model, tokenizer, task_id: str):
 
     def reward_fn(completions, prompts=None, **kwargs):
         """
-        Called by GRPOTrainer after generating completions.
-        Runs a full episode using the model directly (no API server).
+        Reward based on completion quality only — no model re-inference.
+        Avoids CUDA context conflicts on T4 from calling model inside reward.
         """
+        import json, re
         rewards = []
-        for _ in completions:
+        for completion in completions:
             try:
-                episode = _run_episode(task_id, model_fn)
-                r = sum(s["reward"] for s in episode) / max(len(episode), 1)
+                text = completion if isinstance(completion, str) else (
+                    completion[0]["content"] if isinstance(completion, list) else str(completion)
+                )
+                # strip thinking tags
+                text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+                # find JSON
+                m = re.search(r"\{.*\}", text, re.DOTALL)
+                if not m:
+                    rewards.append(0.0)
+                    continue
+                data = json.loads(m.group())
+                # planner reward: valid targets list with scores
+                targets = data.get("targets", [])
+                if isinstance(targets, list) and len(targets) > 0:
+                    valid = sum(1 for t in targets if "target_id" in t and "score" in t)
+                    r = 0.5 + 0.5 * (valid / max(len(targets), 1))
+                else:
+                    r = 0.1
+                rewards.append(float(r))
             except Exception as e:
-                print(f"[WARN] reward_fn episode failed: {e}", flush=True)
-                r = 0.0
-            rewards.append(float(r))
+                rewards.append(0.0)
         return rewards
 
     grpo_config = GRPOConfig(
@@ -340,7 +357,8 @@ def train_grpo(model, tokenizer, task_id: str):
         learning_rate=LR,
         logging_steps=5,
         save_steps=50,
-        bf16=True,
+        bf16=torch.cuda.is_available() and torch.cuda.get_device_capability()[0] >= 8,
+        fp16=torch.cuda.is_available() and torch.cuda.get_device_capability()[0] < 8,
         report_to="none",
         temperature=0.8,
         num_generations=4,
