@@ -375,6 +375,12 @@ def train_grpo(model, tokenizer, task_id: str):
     trainer.train()
     print(f"[GRPO] task={task_id} done.", flush=True)
 
+    os.makedirs(f"outputs/grpo_{task_id}", exist_ok=True)
+    log_path = f"outputs/grpo_{task_id}/training_log.json"
+    with open(log_path, "w") as f:
+        json.dump(trainer.state.log_history, f, indent=2)
+    print(f"[GRPO] Log saved → {log_path}", flush=True)
+
 
 # ---------------------------------------------------------------------------
 # Continual learning loop — runs after curriculum, self-triggers on novelty
