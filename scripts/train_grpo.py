@@ -111,15 +111,11 @@ def _run_episode(task_id: str, model_fn) -> List[dict]:
             obs = result.observation
             p_obs, c_obs, e_obs_list = obs.planner_obs, obs.coordinator_obs, obs.executor_obs
 
-            with ThreadPoolExecutor(max_workers=5) as pool:
-                f_p = pool.submit(model_fn, PLANNER_SYSTEM, p_obs.narrative)
-                f_c = pool.submit(model_fn, COORDINATOR_SYSTEM, c_obs.narrative)
-                f_ex = [pool.submit(model_fn, EXECUTOR_SYSTEM.format(site=e.site_name), e.narrative)
-                        for e in e_obs_list]
-
-            raw_p = f_p.result()
-            raw_c = f_c.result()
-            raw_ex = [f.result() for f in f_ex]
+            # Sequential model calls — concurrent generate() on same model causes CUDA assert
+            raw_p = model_fn(PLANNER_SYSTEM, p_obs.narrative)
+            raw_c = model_fn(COORDINATOR_SYSTEM, c_obs.narrative)
+            raw_ex = [model_fn(EXECUTOR_SYSTEM.format(site=e.site_name), e.narrative)
+                      for e in e_obs_list]
 
             # Parse
             p_data = parse_json(raw_p)
@@ -327,35 +323,69 @@ def train_grpo(model, tokenizer, task_id: str):
 
     def reward_fn(completions, prompts=None, **kwargs):
         """
-        Reward based on completion quality only — no model re-inference.
-        Avoids CUDA context conflicts on T4 from calling model inside reward.
+        Real environment reward — parses each completion as a planner action,
+        runs one env step against the local server, returns actual science yield.
+        No model re-inference, no CUDA conflict.
         """
-        import json, re
-        rewards = []
-        for completion in completions:
+        import json as _json, re as _re
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+        from client import AstrofEnv
+        from models import (NetworkAction, PlannerAction, CoordinatorAction,
+                            ExecutorAction, TargetScore, AssignmentItem)
+
+        def _parse(text):
+            text = _re.sub(r"<think>.*?</think>", "", text or "", flags=_re.DOTALL).strip()
+            m = _re.search(r"\{.*\}", text, _re.DOTALL)
+            if m:
+                try:
+                    return _json.loads(m.group())
+                except Exception:
+                    pass
+            return None
+
+        def _score_one(completion):
+            text = completion if isinstance(completion, str) else (
+                completion[0]["content"] if isinstance(completion, list) else str(completion)
+            )
+            p_data = _parse(text)
+            if not p_data:
+                return 0.0
+            targets = p_data.get("targets", [])
+            if not targets:
+                return 0.1
             try:
-                text = completion if isinstance(completion, str) else (
-                    completion[0]["content"] if isinstance(completion, list) else str(completion)
-                )
-                # strip thinking tags
-                text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
-                # find JSON
-                m = re.search(r"\{.*\}", text, re.DOTALL)
-                if not m:
-                    rewards.append(0.0)
-                    continue
-                data = json.loads(m.group())
-                # planner reward: valid targets list with scores
-                targets = data.get("targets", [])
-                if isinstance(targets, list) and len(targets) > 0:
-                    valid = sum(1 for t in targets if "target_id" in t and "score" in t)
-                    r = 0.5 + 0.5 * (valid / max(len(targets), 1))
-                else:
-                    r = 0.1
-                rewards.append(float(r))
-            except Exception as e:
-                rewards.append(0.0)
-        return rewards
+                with AstrofEnv(base_url=ENV_BASE_URL).sync() as env:
+                    env.reset(task_id=task_id)
+                    planner_action = PlannerAction(
+                        targets=[TargetScore(target_id=str(t["target_id"]),
+                                             score=float(t.get("score", 0.5)))
+                                 for t in targets if "target_id" in t],
+                        too_flag=p_data.get("too_flag", "dismiss"),
+                    )
+                    sorted_t = sorted(targets, key=lambda x: -float(x.get("score", 0)))
+                    tel_ids = ["mauna_kea", "la_palma", "siding_spring"]
+                    assignments = [
+                        AssignmentItem(telescope_id=tel_ids[i],
+                                       target_id=str(sorted_t[i]["target_id"]))
+                        for i in range(min(len(sorted_t), len(tel_ids)))
+                        if "target_id" in sorted_t[i]
+                    ]
+                    coord_action = CoordinatorAction(assignments=assignments)
+                    ex_actions = [ExecutorAction(action="observe", target_id=a.target_id)
+                                  for a in assignments]
+                    while len(ex_actions) < 3:
+                        ex_actions.append(ExecutorAction(action="wait"))
+                    result = env.step(NetworkAction(
+                        planner_action=planner_action,
+                        coordinator_action=coord_action,
+                        executor_actions=ex_actions,
+                    ))
+                    return float(result.reward or 0.0)
+            except Exception as exc:
+                print(f"[reward_fn] err: {exc}", flush=True)
+                return 0.0
+
+        return [_score_one(c) for c in completions]
 
     grpo_config = GRPOConfig(
         output_dir=f"outputs/grpo_{task_id}",
@@ -459,15 +489,12 @@ def run_continual_loop(model, tokenizer):
                     obs = result.observation
                     p_obs, c_obs, e_obs_list = obs.planner_obs, obs.coordinator_obs, obs.executor_obs
 
-                    with ThreadPoolExecutor(max_workers=5) as pool:
-                        f_p  = pool.submit(model_fn, PLANNER_SYSTEM, p_obs.narrative)
-                        f_c  = pool.submit(model_fn, COORDINATOR_SYSTEM, c_obs.narrative)
-                        f_ex = [pool.submit(model_fn, EXECUTOR_SYSTEM.format(site=e.site_name), e.narrative)
-                                for e in e_obs_list]
-
-                    raw_p  = f_p.result()
-                    raw_c  = f_c.result()
-                    raw_ex = [f.result() for f in f_ex]
+                    # Sequential model calls — ThreadPoolExecutor causes CUDA assert
+                    # when multiple threads call model.generate() concurrently
+                    raw_p  = model_fn(PLANNER_SYSTEM, p_obs.narrative)
+                    raw_c  = model_fn(COORDINATOR_SYSTEM, c_obs.narrative)
+                    raw_ex = [model_fn(EXECUTOR_SYSTEM.format(site=e.site_name), e.narrative)
+                              for e in e_obs_list]
 
                     p_data = parse_json_local(raw_p)
                     c_data = parse_json_local(raw_c)
