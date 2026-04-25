@@ -14,6 +14,7 @@ SFT warm-start: loads data/sft_warmstart.jsonl before GRPO if present
 import json
 import os
 import sys
+import torch
 from typing import List
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
