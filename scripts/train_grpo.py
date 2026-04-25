@@ -242,7 +242,7 @@ def _make_direct_model_fn(model, tokenizer):
 
     def model_fn(system: str, user: str) -> str:
         prompt = (
-            f"<|im_start|>system\n{system}<|im_end|>\n"
+            f"<|im_start|>system\n/no_think\n{system}<|im_end|>\n"
             f"<|im_start|>user\n{user}<|im_end|>\n"
             f"<|im_start|>assistant\n"
         )
@@ -310,7 +310,15 @@ def train_grpo(model, tokenizer, task_id: str):
         for seed in range(20):
             result = env.reset(task_id=task_id, seed=seed)
             obs = result.observation
-            prompts.append({"prompt": PLANNER_SYSTEM + "\n\n" + obs.planner_obs.narrative})
+            # Use chat template with /no_think to suppress Qwen3 chain-of-thought
+            # tokens — without this, <think>...</think> fills the entire completion
+            # budget before any JSON is generated.
+            prompt = (
+                f"<|im_start|>system\n/no_think\n{PLANNER_SYSTEM}<|im_end|>\n"
+                f"<|im_start|>user\n{obs.planner_obs.narrative}<|im_end|>\n"
+                f"<|im_start|>assistant\n"
+            )
+            prompts.append({"prompt": prompt})
 
     dataset = Dataset.from_list(prompts)
 
