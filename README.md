@@ -15,6 +15,19 @@ Built on real NASA Exoplanet Archive data and astropy physics.
 
 ---
 
+## Links
+
+| | |
+|---|---|
+| 📖 Blog | [BLOG.md](BLOG.md) |
+| ❓ FAQ | [FAQ.md](FAQ.md) |
+| 🎓 Training (Colab) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Cosmos-Atom/astrof/blob/main/train_astrof.ipynb) |
+| 🎬 Vlog | [YouTube](https://youtu.be/jBWHEfqKnSE) |
+| 🤗 HF Space | [Cosmosatom/astrof](https://huggingface.co/spaces/Cosmosatom/astrof) |
+| 📊 Pitch Deck | [ASTROF_Pitch.pptx](ASTROF_Pitch.pptx) |
+
+---
+
 ## Problem Statement
 
 Every clear night, professional observatories face a hard combinatorial problem: which exoplanet targets should which telescope observe, and in what order? At 3+ telescopes, a flat agent model produces duplicate observations, stale coordination on weather failures, and no clear credit assignment.

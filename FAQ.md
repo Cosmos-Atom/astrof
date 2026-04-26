@@ -74,6 +74,12 @@ A: The greedy scheduler scores around 0.63–0.71 and zero-shot LLM around 0.52�
 
 ---
 
+**Q: How does the system handle telescope failures mid-observation?**
+
+A: When a Telescope Executor detects bad conditions or a hardware fault, it issues a `request_reassign` or `abort` action. The Network Coordinator reads this from the reassign queue on the next step and redistributes that telescope's targets to the remaining active telescopes. The failed telescope is tracked in `_failed_telescopes` and skipped for the rest of the episode — its time slots are sacrificed but the team reward continues from the surviving telescopes. This fault tolerance is tested explicitly in the hard and expert tasks.
+
+---
+
 **Q: Could this architecture apply beyond astronomy?**
 
 A: Yes — any multi-agent scheduling problem with stochastic conditions, competing priorities, and rare events maps cleanly onto this architecture. Think air traffic control, hospital resource allocation, or satellite network management.
