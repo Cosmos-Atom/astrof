@@ -17,12 +17,11 @@ Built on real NASA Exoplanet Archive data and astropy physics.
 
 ## Links
 
-| | |
 |---|---|
+| 🎬 Vlog | [YouTube](https://youtu.be/jBWHEfqKnSE) |
 | 📖 Blog | [BLOG.md](BLOG.md) |
 | ❓ FAQ | [FAQ.md](FAQ.md) |
 | 🎓 Training (Colab) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Cosmos-Atom/astrof/blob/main/train_astrof.ipynb) |
-| 🎬 Vlog | [YouTube](https://youtu.be/jBWHEfqKnSE) |
 | 🤗 HF Space | [Cosmosatom/astrof](https://huggingface.co/spaces/Cosmosatom/astrof) |
 | 📊 Pitch Deck | [ASTROF_Pitch.pptx](ASTROF_Pitch.pptx) |
 
