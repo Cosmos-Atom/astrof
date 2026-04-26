@@ -51,6 +51,14 @@ SFT_EPOCHS = 1                                       # warm-start epochs before 
 SFT_DATA = os.path.join(os.path.dirname(__file__), "../data/sft_warmstart.jsonl")
 
 # ---------------------------------------------------------------------------
+# Experiment tracking
+# Training logs (loss, reward, kl per step) are saved to outputs/ after each
+# GRPO phase: outputs/grpo_{task_id}/training_log.json
+# SFT checkpoints: outputs/sft/
+# Final adapter:   outputs/final/
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
 # System prompts (must match inference.py exactly)
 # ---------------------------------------------------------------------------
 PLANNER_SYSTEM = """You are the Science Planner for a global telescope network observing exoplanets.

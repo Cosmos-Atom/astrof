@@ -128,6 +128,18 @@ The training notebook [`train_astrof.ipynb`](train_astrof.ipynb) covers the full
 
 **Model:** `unsloth/Qwen3-1.7B-unsloth-bnb-4bit` · **GPU:** H200 80GB SXM (Lightning AI) · **Total GRPO steps:** 400 + 87 SFT · **LoRA auto-triggers:** 4
 
+### Experiment Tracking
+
+Training metrics are logged to `outputs/` after each phase:
+
+| File | Contents |
+|------|----------|
+| `outputs/grpo_easy/training_log.json` | loss, reward, kl, completion length per step |
+| `outputs/grpo_medium/training_log.json` | same for medium task |
+| `outputs/grpo_hard/training_log.json` | same for hard task |
+| `outputs/sft/` | SFT checkpoint |
+| `outputs/final/` | final merged LoRA adapter |
+
 ### Training Results
 
 ![Training Curves](outputs/final/training_curves.png)
