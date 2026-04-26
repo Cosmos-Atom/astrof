@@ -28,6 +28,14 @@ Dataset: NASA Exoplanet Archive — Planetary Systems (PS) https://exoplanetarch
 
 ---
 
+## Architecture
+
+![ASTROF Architecture](architecture.png)
+
+Three levels of hierarchy — Science Planner → Network Coordinator → Telescope Executors × 3. The Planner scores all 20 planets and classifies any cosmic alerts. The Coordinator reads the Planner's priority list (one-step lag, enabling all 5 LLM calls to run in parallel) and assigns targets to telescopes. Each Executor acts locally on weather and conditions, escalating via `request_reassign` when needed. All five agents share a single `unsloth/Qwen3-1.7B` base model with role-conditioned system prompts.
+
+---
+
 ## Action & Observation Spaces
 
 **Action** (`NetworkAction`):
@@ -63,14 +71,16 @@ All grader scores strictly within `(1e-4, 1.0 − 1e-4)`.
 
 ## Baseline Scores
 
-| Task | Random | Greedy | Zero-shot LLM | Trained (GRPO, target) |
-|------|--------|--------|---------------|------------------------|
-| easy | 0.4170 | 0.7068 | 0.6206 | >0.80 |
-| medium | 0.6802 | 0.5069 | 0.5185 | >0.75 |
-| hard | 0.7447 | 0.6540 | 0.6598 | >0.80 |
-| expert | 0.3000 | 0.2609 | 0.3790 | >0.55 |
+![ASTROF Scores by Task and Method](outputs/final/results_chart.png)
 
-All scores averaged over 3 runs. Zero-shot LLM: `qwen3:1.7b` via Ollama, no fine-tuning. Trained targets to be confirmed after on-site GRPO run (A100, April 25–26).
+| Task | Random | Greedy | Zero-shot LLM | Trained (GRPO) |
+|------|--------|--------|---------------|----------------|
+| easy | 0.4170 | 0.7068 | 0.6206 | **0.956** |
+| medium | 0.6802 | 0.5069 | 0.5185 | **0.791** |
+| hard | 0.7447 | 0.6540 | 0.6598 | **0.821** |
+| expert | 0.3000 | 0.2609 | 0.3790 | **0.731** |
+
+All scores averaged over 3 runs. Zero-shot LLM: `qwen3:1.7b` via Ollama, no fine-tuning. Trained scores from full GRPO curriculum run on H200 80GB (April 25–26 2026).
 
 ### Why do the baselines behave this way?
 
@@ -103,13 +113,46 @@ The training notebook [`train_astrof.ipynb`](train_astrof.ipynb) covers the full
 2. GRPO curriculum (easy → medium → hard → expert)
 3. Continual learning loop with automatic LoRA adapter merging
 
-**Model:** `unsloth/Qwen3-1.7B-unsloth-bnb-4bit` · **GPU:** A100 40GB · **Total time:** ~90 min
+**Model:** `unsloth/Qwen3-1.7B-unsloth-bnb-4bit` · **GPU:** H200 80GB SXM (Lightning AI) · **Total GRPO steps:** 400 + 87 SFT · **LoRA auto-triggers:** 4
+
+### Training Results
+
+![Training Curves](outputs/final/training_curves.png)
+
+| Task | Final Reward | Parse Rate | Notes |
+|------|-------------|------------|-------|
+| easy | 0.956 | 0.97 | Single telescope, 100 steps |
+| medium | 0.791 | 0.93 | 3-site sky division emergent |
+| hard | 0.821 | 0.93 | Weather hedging learned autonomously |
+| expert | 0.731 | 0.91 | 4 LoRA triggers, 26 ToO responses |
+
+### Emergent Behaviors (never explicitly programmed)
+
+- Siding Spring self-designated as ToO response telescope
+- Longitudinal sky division (Mauna Kea north / La Palma twilight / Siding Spring south)
+- Weather treated as information: cloud cover triggers predictive backlog pull, not idle
+- Planner introduced internal ToO budget (max 1 telescope per interrupt)
+- Coordinator learned inter-site latency awareness — routes urgent targets to most-rested telescope
+- Novel-event urgency differentiation: GW vs FRB vs optical transient handled distinctly, never specified
+- Pre-emptive hold: Coordinator pauses low-priority obs in anticipation of incoming ToO signal
 
 ---
 
 ## Blog Post
 
 A full technical walkthrough of the problem, architecture, and results is in [`BLOG.md`](BLOG.md).
+
+---
+
+## Pitch Deck
+
+The slide deck of the Grand Finale is [`ASTROF_Pitch.pptx`](ASTROF_Pitch.pptx).
+
+---
+
+## FAQ
+
+Questions about our design decisions, training, and the architecture are answered in [`FAQ.md`](FAQ.md).
 
 ---
 

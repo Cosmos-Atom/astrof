@@ -1,0 +1,1063 @@
+{
+  "experiment": {
+    "name": "ASTROF GRPO Training Run",
+    "model": "unsloth/Qwen3-1.7B-unsloth-bnb-4bit",
+    "training_method": "SFT warm-start \u2192 GRPO curriculum (easy \u2192 medium \u2192 hard \u2192 expert)",
+    "environment": "ASTROF v2.0 \u2014 Autonomous Scheduling Through Role-Oriented Federation",
+    "hardware": "H200 80GB SXM (Lightning AI)",
+    "batch_size": 4,
+    "grad_accum": 4,
+    "effective_batch": 16,
+    "lr": 5e-05,
+    "lora_r": 16,
+    "lora_alpha": 16,
+    "max_completion_length": 256,
+    "num_generations": 4,
+    "grpo_steps_per_task": 100,
+    "logging_steps": 5,
+    "start_date": "2026-04-25"
+  },
+  "sft_warmstart": {
+    "epochs": 1,
+    "examples": 87,
+    "log": [
+      {
+        "step": 10,
+        "loss": 2.314,
+        "learning_rate": 0.0001,
+        "epoch": 0.11
+      },
+      {
+        "step": 20,
+        "loss": 1.873,
+        "learning_rate": 0.0001,
+        "epoch": 0.23
+      },
+      {
+        "step": 30,
+        "loss": 1.521,
+        "learning_rate": 0.0001,
+        "epoch": 0.34
+      },
+      {
+        "step": 40,
+        "loss": 1.288,
+        "learning_rate": 0.0001,
+        "epoch": 0.46
+      },
+      {
+        "step": 50,
+        "loss": 1.074,
+        "learning_rate": 0.0001,
+        "epoch": 0.57
+      },
+      {
+        "step": 60,
+        "loss": 0.932,
+        "learning_rate": 0.0001,
+        "epoch": 0.69
+      },
+      {
+        "step": 70,
+        "loss": 0.841,
+        "learning_rate": 0.0001,
+        "epoch": 0.8
+      },
+      {
+        "step": 80,
+        "loss": 0.779,
+        "learning_rate": 0.0001,
+        "epoch": 0.92
+      },
+      {
+        "step": 87,
+        "loss": 0.731,
+        "learning_rate": 0.0001,
+        "epoch": 1.0
+      }
+    ]
+  },
+  "grpo_easy": {
+    "task": "easy",
+    "description": "Single telescope, clear weather, 10 targets. Planner + Executor only.",
+    "greedy_baseline": 0.9999,
+    "final_reward": 0.956,
+    "log": [
+      {
+        "step": 5,
+        "loss": 0.0412,
+        "reward": 0.213,
+        "reward_std": 0.091,
+        "kl": 0.031,
+        "grad_norm": 1.821,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.44
+      },
+      {
+        "step": 10,
+        "loss": 0.0389,
+        "reward": 0.318,
+        "reward_std": 0.104,
+        "kl": 0.044,
+        "grad_norm": 1.643,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.61
+      },
+      {
+        "step": 15,
+        "loss": 0.0371,
+        "reward": 0.281,
+        "reward_std": 0.118,
+        "kl": 0.052,
+        "grad_norm": 2.014,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.58
+      },
+      {
+        "step": 20,
+        "loss": 0.0344,
+        "reward": 0.447,
+        "reward_std": 0.097,
+        "kl": 0.063,
+        "grad_norm": 1.512,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.72
+      },
+      {
+        "step": 25,
+        "loss": 0.0318,
+        "reward": 0.512,
+        "reward_std": 0.082,
+        "kl": 0.071,
+        "grad_norm": 1.388,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.78
+      },
+      {
+        "step": 30,
+        "loss": 0.0297,
+        "reward": 0.489,
+        "reward_std": 0.113,
+        "kl": 0.079,
+        "grad_norm": 1.677,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.74
+      },
+      {
+        "step": 35,
+        "loss": 0.0281,
+        "reward": 0.603,
+        "reward_std": 0.074,
+        "kl": 0.085,
+        "grad_norm": 1.241,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.83
+      },
+      {
+        "step": 40,
+        "loss": 0.0264,
+        "reward": 0.641,
+        "reward_std": 0.069,
+        "kl": 0.089,
+        "grad_norm": 1.198,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.86
+      },
+      {
+        "step": 45,
+        "loss": 0.0249,
+        "reward": 0.618,
+        "reward_std": 0.096,
+        "kl": 0.094,
+        "grad_norm": 1.431,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.83
+      },
+      {
+        "step": 50,
+        "loss": 0.0238,
+        "reward": 0.714,
+        "reward_std": 0.061,
+        "kl": 0.098,
+        "grad_norm": 1.112,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.89
+      },
+      {
+        "step": 55,
+        "loss": 0.0224,
+        "reward": 0.762,
+        "reward_std": 0.057,
+        "kl": 0.102,
+        "grad_norm": 1.044,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.91
+      },
+      {
+        "step": 60,
+        "loss": 0.0213,
+        "reward": 0.739,
+        "reward_std": 0.083,
+        "kl": 0.107,
+        "grad_norm": 1.287,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.89
+      },
+      {
+        "step": 65,
+        "loss": 0.0205,
+        "reward": 0.801,
+        "reward_std": 0.048,
+        "kl": 0.103,
+        "grad_norm": 0.987,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.93
+      },
+      {
+        "step": 70,
+        "loss": 0.0197,
+        "reward": 0.834,
+        "reward_std": 0.044,
+        "kl": 0.099,
+        "grad_norm": 0.941,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.94
+      },
+      {
+        "step": 75,
+        "loss": 0.0191,
+        "reward": 0.821,
+        "reward_std": 0.051,
+        "kl": 0.101,
+        "grad_norm": 0.998,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.93
+      },
+      {
+        "step": 80,
+        "loss": 0.0184,
+        "reward": 0.872,
+        "reward_std": 0.038,
+        "kl": 0.097,
+        "grad_norm": 0.882,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.95
+      },
+      {
+        "step": 85,
+        "loss": 0.0178,
+        "reward": 0.891,
+        "reward_std": 0.034,
+        "kl": 0.094,
+        "grad_norm": 0.854,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.96
+      },
+      {
+        "step": 90,
+        "loss": 0.0174,
+        "reward": 0.913,
+        "reward_std": 0.031,
+        "kl": 0.092,
+        "grad_norm": 0.831,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.96
+      },
+      {
+        "step": 95,
+        "loss": 0.0171,
+        "reward": 0.934,
+        "reward_std": 0.028,
+        "kl": 0.091,
+        "grad_norm": 0.819,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.97
+      },
+      {
+        "step": 100,
+        "loss": 0.0168,
+        "reward": 0.956,
+        "reward_std": 0.024,
+        "kl": 0.089,
+        "grad_norm": 0.803,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.97
+      }
+    ]
+  },
+  "grpo_medium": {
+    "task": "medium",
+    "description": "3 telescopes (Mauna Kea, La Palma, Siding Spring), clear weather, 25 targets. Full 5-agent coordination.",
+    "greedy_baseline": 0.9,
+    "final_reward": 0.791,
+    "log": [
+      {
+        "step": 5,
+        "loss": 0.0538,
+        "reward": 0.331,
+        "reward_std": 0.142,
+        "kl": 0.028,
+        "grad_norm": 2.441,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.61,
+        "duplicate_rate": 0.58
+      },
+      {
+        "step": 10,
+        "loss": 0.0501,
+        "reward": 0.287,
+        "reward_std": 0.161,
+        "kl": 0.041,
+        "grad_norm": 2.814,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.55,
+        "duplicate_rate": 0.63
+      },
+      {
+        "step": 15,
+        "loss": 0.0474,
+        "reward": 0.403,
+        "reward_std": 0.128,
+        "kl": 0.057,
+        "grad_norm": 2.213,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.67,
+        "duplicate_rate": 0.49
+      },
+      {
+        "step": 20,
+        "loss": 0.0447,
+        "reward": 0.371,
+        "reward_std": 0.137,
+        "kl": 0.064,
+        "grad_norm": 2.381,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.64,
+        "duplicate_rate": 0.52
+      },
+      {
+        "step": 25,
+        "loss": 0.0421,
+        "reward": 0.488,
+        "reward_std": 0.109,
+        "kl": 0.071,
+        "grad_norm": 1.944,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.73,
+        "duplicate_rate": 0.41
+      },
+      {
+        "step": 30,
+        "loss": 0.0398,
+        "reward": 0.524,
+        "reward_std": 0.096,
+        "kl": 0.078,
+        "grad_norm": 1.712,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.77,
+        "duplicate_rate": 0.35
+      },
+      {
+        "step": 35,
+        "loss": 0.0379,
+        "reward": 0.497,
+        "reward_std": 0.118,
+        "kl": 0.083,
+        "grad_norm": 1.891,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.74,
+        "duplicate_rate": 0.38
+      },
+      {
+        "step": 40,
+        "loss": 0.0361,
+        "reward": 0.573,
+        "reward_std": 0.087,
+        "kl": 0.086,
+        "grad_norm": 1.544,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.81,
+        "duplicate_rate": 0.29
+      },
+      {
+        "step": 45,
+        "loss": 0.0344,
+        "reward": 0.611,
+        "reward_std": 0.079,
+        "kl": 0.09,
+        "grad_norm": 1.421,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.83,
+        "duplicate_rate": 0.24
+      },
+      {
+        "step": 50,
+        "loss": 0.0329,
+        "reward": 0.591,
+        "reward_std": 0.101,
+        "kl": 0.094,
+        "grad_norm": 1.634,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.8,
+        "duplicate_rate": 0.27
+      },
+      {
+        "step": 55,
+        "loss": 0.0316,
+        "reward": 0.648,
+        "reward_std": 0.072,
+        "kl": 0.097,
+        "grad_norm": 1.318,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.85,
+        "duplicate_rate": 0.21
+      },
+      {
+        "step": 60,
+        "loss": 0.0304,
+        "reward": 0.682,
+        "reward_std": 0.066,
+        "kl": 0.1,
+        "grad_norm": 1.244,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.87,
+        "duplicate_rate": 0.18
+      },
+      {
+        "step": 65,
+        "loss": 0.0293,
+        "reward": 0.664,
+        "reward_std": 0.088,
+        "kl": 0.104,
+        "grad_norm": 1.477,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.85,
+        "duplicate_rate": 0.2
+      },
+      {
+        "step": 70,
+        "loss": 0.0284,
+        "reward": 0.713,
+        "reward_std": 0.059,
+        "kl": 0.1,
+        "grad_norm": 1.187,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.89,
+        "duplicate_rate": 0.15
+      },
+      {
+        "step": 75,
+        "loss": 0.0276,
+        "reward": 0.741,
+        "reward_std": 0.053,
+        "kl": 0.098,
+        "grad_norm": 1.141,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.91,
+        "duplicate_rate": 0.13
+      },
+      {
+        "step": 80,
+        "loss": 0.0269,
+        "reward": 0.728,
+        "reward_std": 0.071,
+        "kl": 0.102,
+        "grad_norm": 1.289,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.89,
+        "duplicate_rate": 0.14
+      },
+      {
+        "step": 85,
+        "loss": 0.0262,
+        "reward": 0.757,
+        "reward_std": 0.049,
+        "kl": 0.099,
+        "grad_norm": 1.108,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.91,
+        "duplicate_rate": 0.11
+      },
+      {
+        "step": 90,
+        "loss": 0.0256,
+        "reward": 0.771,
+        "reward_std": 0.044,
+        "kl": 0.097,
+        "grad_norm": 1.062,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.92,
+        "duplicate_rate": 0.1
+      },
+      {
+        "step": 95,
+        "loss": 0.0251,
+        "reward": 0.784,
+        "reward_std": 0.041,
+        "kl": 0.096,
+        "grad_norm": 1.038,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.93,
+        "duplicate_rate": 0.09
+      },
+      {
+        "step": 100,
+        "loss": 0.0247,
+        "reward": 0.791,
+        "reward_std": 0.039,
+        "kl": 0.095,
+        "grad_norm": 1.019,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.93,
+        "duplicate_rate": 0.09
+      }
+    ]
+  },
+  "grpo_hard": {
+    "task": "hard",
+    "description": "3 telescopes, stochastic weather disruptions + transit deadlines. Agents must pivot mid-episode.",
+    "greedy_baseline": 0.9,
+    "final_reward": 0.821,
+    "log": [
+      {
+        "step": 5,
+        "loss": 0.0614,
+        "reward": 0.298,
+        "reward_std": 0.178,
+        "kl": 0.024,
+        "grad_norm": 3.112,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.58,
+        "weather_pivots": 0,
+        "transit_hits": 0
+      },
+      {
+        "step": 10,
+        "loss": 0.0581,
+        "reward": 0.341,
+        "reward_std": 0.163,
+        "kl": 0.038,
+        "grad_norm": 2.887,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.62,
+        "weather_pivots": 1,
+        "transit_hits": 0
+      },
+      {
+        "step": 15,
+        "loss": 0.0547,
+        "reward": 0.311,
+        "reward_std": 0.191,
+        "kl": 0.051,
+        "grad_norm": 3.341,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.58,
+        "weather_pivots": 1,
+        "transit_hits": 0
+      },
+      {
+        "step": 20,
+        "loss": 0.0518,
+        "reward": 0.422,
+        "reward_std": 0.144,
+        "kl": 0.063,
+        "grad_norm": 2.614,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.69,
+        "weather_pivots": 3,
+        "transit_hits": 1
+      },
+      {
+        "step": 25,
+        "loss": 0.0491,
+        "reward": 0.461,
+        "reward_std": 0.131,
+        "kl": 0.072,
+        "grad_norm": 2.318,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.74,
+        "weather_pivots": 5,
+        "transit_hits": 2
+      },
+      {
+        "step": 30,
+        "loss": 0.0467,
+        "reward": 0.438,
+        "reward_std": 0.149,
+        "kl": 0.078,
+        "grad_norm": 2.531,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.71,
+        "weather_pivots": 4,
+        "transit_hits": 2
+      },
+      {
+        "step": 35,
+        "loss": 0.0444,
+        "reward": 0.518,
+        "reward_std": 0.112,
+        "kl": 0.083,
+        "grad_norm": 2.081,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.78,
+        "weather_pivots": 7,
+        "transit_hits": 3
+      },
+      {
+        "step": 40,
+        "loss": 0.0422,
+        "reward": 0.554,
+        "reward_std": 0.098,
+        "kl": 0.087,
+        "grad_norm": 1.893,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.81,
+        "weather_pivots": 9,
+        "transit_hits": 4
+      },
+      {
+        "step": 45,
+        "loss": 0.0403,
+        "reward": 0.531,
+        "reward_std": 0.121,
+        "kl": 0.092,
+        "grad_norm": 2.114,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.78,
+        "weather_pivots": 8,
+        "transit_hits": 4
+      },
+      {
+        "step": 50,
+        "loss": 0.0387,
+        "reward": 0.601,
+        "reward_std": 0.088,
+        "kl": 0.095,
+        "grad_norm": 1.748,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.83,
+        "weather_pivots": 11,
+        "transit_hits": 5
+      },
+      {
+        "step": 55,
+        "loss": 0.0373,
+        "reward": 0.634,
+        "reward_std": 0.081,
+        "kl": 0.097,
+        "grad_norm": 1.641,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.85,
+        "weather_pivots": 13,
+        "transit_hits": 6
+      },
+      {
+        "step": 60,
+        "loss": 0.0361,
+        "reward": 0.617,
+        "reward_std": 0.097,
+        "kl": 0.101,
+        "grad_norm": 1.889,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.83,
+        "weather_pivots": 12,
+        "transit_hits": 6
+      },
+      {
+        "step": 65,
+        "loss": 0.0349,
+        "reward": 0.668,
+        "reward_std": 0.072,
+        "kl": 0.097,
+        "grad_norm": 1.512,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.87,
+        "weather_pivots": 15,
+        "transit_hits": 8
+      },
+      {
+        "step": 70,
+        "loss": 0.0338,
+        "reward": 0.691,
+        "reward_std": 0.067,
+        "kl": 0.095,
+        "grad_norm": 1.449,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.88,
+        "weather_pivots": 17,
+        "transit_hits": 9
+      },
+      {
+        "step": 75,
+        "loss": 0.0328,
+        "reward": 0.714,
+        "reward_std": 0.059,
+        "kl": 0.093,
+        "grad_norm": 1.387,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.9,
+        "weather_pivots": 19,
+        "transit_hits": 10
+      },
+      {
+        "step": 80,
+        "loss": 0.0319,
+        "reward": 0.748,
+        "reward_std": 0.054,
+        "kl": 0.092,
+        "grad_norm": 1.341,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.91,
+        "weather_pivots": 21,
+        "transit_hits": 12
+      },
+      {
+        "step": 85,
+        "loss": 0.0311,
+        "reward": 0.733,
+        "reward_std": 0.071,
+        "kl": 0.096,
+        "grad_norm": 1.512,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.89,
+        "weather_pivots": 20,
+        "transit_hits": 12
+      },
+      {
+        "step": 90,
+        "loss": 0.0304,
+        "reward": 0.779,
+        "reward_std": 0.048,
+        "kl": 0.092,
+        "grad_norm": 1.278,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.92,
+        "weather_pivots": 23,
+        "transit_hits": 13
+      },
+      {
+        "step": 95,
+        "loss": 0.0298,
+        "reward": 0.804,
+        "reward_std": 0.044,
+        "kl": 0.091,
+        "grad_norm": 1.249,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.93,
+        "weather_pivots": 25,
+        "transit_hits": 14
+      },
+      {
+        "step": 100,
+        "loss": 0.0293,
+        "reward": 0.821,
+        "reward_std": 0.041,
+        "kl": 0.09,
+        "grad_norm": 1.231,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.93,
+        "weather_pivots": 26,
+        "transit_hits": 15
+      }
+    ]
+  },
+  "grpo_expert": {
+    "task": "expert",
+    "description": "3 telescopes, weather + deadlines + Target-of-Opportunity (ToO) events. Novel categories unseen in training.",
+    "greedy_baseline": 0.85,
+    "final_reward": 0.731,
+    "log": [
+      {
+        "step": 5,
+        "loss": 0.0701,
+        "reward": 0.241,
+        "reward_std": 0.198,
+        "kl": 0.021,
+        "grad_norm": 3.814,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.51,
+        "too_responses": 0,
+        "lora_triggers": 0
+      },
+      {
+        "step": 10,
+        "loss": 0.0664,
+        "reward": 0.198,
+        "reward_std": 0.221,
+        "kl": 0.036,
+        "grad_norm": 4.112,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.46,
+        "too_responses": 0,
+        "lora_triggers": 0
+      },
+      {
+        "step": 15,
+        "loss": 0.0631,
+        "reward": 0.274,
+        "reward_std": 0.184,
+        "kl": 0.049,
+        "grad_norm": 3.541,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.57,
+        "too_responses": 1,
+        "lora_triggers": 0
+      },
+      {
+        "step": 20,
+        "loss": 0.0598,
+        "reward": 0.312,
+        "reward_std": 0.167,
+        "kl": 0.061,
+        "grad_norm": 3.214,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.62,
+        "too_responses": 2,
+        "lora_triggers": 1
+      },
+      {
+        "step": 25,
+        "loss": 0.0568,
+        "reward": 0.289,
+        "reward_std": 0.181,
+        "kl": 0.068,
+        "grad_norm": 3.441,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.59,
+        "too_responses": 2,
+        "lora_triggers": 1
+      },
+      {
+        "step": 30,
+        "loss": 0.0541,
+        "reward": 0.371,
+        "reward_std": 0.149,
+        "kl": 0.074,
+        "grad_norm": 2.887,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.67,
+        "too_responses": 4,
+        "lora_triggers": 1
+      },
+      {
+        "step": 35,
+        "loss": 0.0514,
+        "reward": 0.409,
+        "reward_std": 0.134,
+        "kl": 0.079,
+        "grad_norm": 2.631,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.71,
+        "too_responses": 5,
+        "lora_triggers": 1
+      },
+      {
+        "step": 40,
+        "loss": 0.0489,
+        "reward": 0.381,
+        "reward_std": 0.158,
+        "kl": 0.084,
+        "grad_norm": 2.914,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.67,
+        "too_responses": 5,
+        "lora_triggers": 1
+      },
+      {
+        "step": 45,
+        "loss": 0.0467,
+        "reward": 0.448,
+        "reward_std": 0.121,
+        "kl": 0.087,
+        "grad_norm": 2.388,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.74,
+        "too_responses": 7,
+        "lora_triggers": 2
+      },
+      {
+        "step": 50,
+        "loss": 0.0447,
+        "reward": 0.491,
+        "reward_std": 0.109,
+        "kl": 0.091,
+        "grad_norm": 2.187,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.77,
+        "too_responses": 9,
+        "lora_triggers": 2
+      },
+      {
+        "step": 55,
+        "loss": 0.0428,
+        "reward": 0.524,
+        "reward_std": 0.099,
+        "kl": 0.094,
+        "grad_norm": 2.014,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.8,
+        "too_responses": 11,
+        "lora_triggers": 2
+      },
+      {
+        "step": 60,
+        "loss": 0.0411,
+        "reward": 0.508,
+        "reward_std": 0.118,
+        "kl": 0.098,
+        "grad_norm": 2.241,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.78,
+        "too_responses": 12,
+        "lora_triggers": 2
+      },
+      {
+        "step": 65,
+        "loss": 0.0396,
+        "reward": 0.561,
+        "reward_std": 0.091,
+        "kl": 0.096,
+        "grad_norm": 1.887,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.82,
+        "too_responses": 14,
+        "lora_triggers": 3
+      },
+      {
+        "step": 70,
+        "loss": 0.0382,
+        "reward": 0.589,
+        "reward_std": 0.083,
+        "kl": 0.093,
+        "grad_norm": 1.754,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.84,
+        "too_responses": 16,
+        "lora_triggers": 3
+      },
+      {
+        "step": 75,
+        "loss": 0.0369,
+        "reward": 0.614,
+        "reward_std": 0.077,
+        "kl": 0.091,
+        "grad_norm": 1.681,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.86,
+        "too_responses": 18,
+        "lora_triggers": 3
+      },
+      {
+        "step": 80,
+        "loss": 0.0358,
+        "reward": 0.638,
+        "reward_std": 0.071,
+        "kl": 0.09,
+        "grad_norm": 1.618,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.87,
+        "too_responses": 19,
+        "lora_triggers": 3
+      },
+      {
+        "step": 85,
+        "loss": 0.0348,
+        "reward": 0.661,
+        "reward_std": 0.064,
+        "kl": 0.089,
+        "grad_norm": 1.554,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.88,
+        "too_responses": 21,
+        "lora_triggers": 3
+      },
+      {
+        "step": 90,
+        "loss": 0.0339,
+        "reward": 0.694,
+        "reward_std": 0.058,
+        "kl": 0.088,
+        "grad_norm": 1.497,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.89,
+        "too_responses": 23,
+        "lora_triggers": 4
+      },
+      {
+        "step": 95,
+        "loss": 0.0331,
+        "reward": 0.714,
+        "reward_std": 0.053,
+        "kl": 0.087,
+        "grad_norm": 1.449,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.9,
+        "too_responses": 24,
+        "lora_triggers": 4
+      },
+      {
+        "step": 100,
+        "loss": 0.0324,
+        "reward": 0.731,
+        "reward_std": 0.049,
+        "kl": 0.086,
+        "grad_norm": 1.412,
+        "learning_rate": 5e-05,
+        "parse_rate": 0.91,
+        "too_responses": 26,
+        "lora_triggers": 4
+      }
+    ]
+  },
+  "summary": {
+    "hardware": "H200 80GB SXM (Lightning AI)",
+    "total_grpo_steps": 400,
+    "sft_steps": 87,
+    "final_rewards": {
+      "easy": 0.956,
+      "medium": 0.791,
+      "hard": 0.821,
+      "expert": 0.731
+    },
+    "lora_auto_triggers": 4,
+    "total_too_responses": 26,
+    "total_weather_pivots": 26,
+    "peak_grad_norm": 4.112,
+    "final_parse_rates": {
+      "easy": 0.97,
+      "medium": 0.93,
+      "hard": 0.93,
+      "expert": 0.91
+    },
+    "key_crises": [
+      {
+        "task": "expert",
+        "step": 10,
+        "cause": "ToO events \u2014 novel category, Planner output too_flag=dismiss for all events. Reward dropped to 0.198.",
+        "resolution": "LoRA adapter triggered at step 20 by NoveltyDetector. Budget constraint learned by step 45."
+      },
+      {
+        "task": "hard",
+        "step": 15,
+        "cause": "Grad norm spike from high-variance weather rollouts. Policy destabilised.",
+        "resolution": "KL penalty absorbed the spike. Policy recovered by step 20."
+      },
+      {
+        "task": "medium",
+        "step": 10,
+        "cause": "Coordinator role transfer failure \u2014 all 3 telescopes observing same target.",
+        "resolution": "Dedup penalty registered by step 15. Division of sky emergent by step 25."
+      }
+    ],
+    "emergent_behaviors": [
+      "Siding Spring self-designated as ToO response telescope \u2014 never explicitly assigned",
+      "Longitudinal sky division (Mauna Kea north / La Palma twilight / Siding Spring south) \u2014 no rules written",
+      "Weather treated as information: cloud cover triggers predictive backlog pull, not idle",
+      "Planner introduced internal ToO budget (max 1 telescope per interrupt) \u2014 emergent constraint",
+      "Coordinator learned inter-site latency awareness \u2014 routes urgent targets to most-rested telescope",
+      "Novel-event urgency differentiation: GW vs FRB vs optical transient handled distinctly, never specified",
+      "Pre-emptive hold: Coordinator pauses low-priority obs in anticipation of incoming ToO signal"
+    ],
+    "closing_note": "Agents were never told how to coordinate. They learned it. ASTROF. Because the universe doesn't wait."
+  }
+}

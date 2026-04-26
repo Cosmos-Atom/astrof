@@ -1,24 +1,26 @@
-# From One Telescope to a Thinking Network: How We Built ASTROF
+# 🧠 ASTROF — A Fever Dream, A Telescope, and a Superior Mind
 
-*A story about exoplanets, reinforcement learning, and what happens when you give an AI a real sky to schedule.*
-
----
-
-## The Night Starts Simply
-
-It's 6:30 PM on Mauna Kea, Hawaii. Altitude: 4,207 metres above sea level. The air is thin, the sky is dark, and somewhere overhead are 20 confirmed exoplanets waiting to be observed.
-
-You have one telescope. One night. What do you observe?
-
-This is easy. You pick the most scientifically valuable target that's visible right now — high enough in the sky (low airmass), not too close to the horizon, not already observed. You wait for it to clear the ridge. You observe. You move on.
-
-This is a solved problem. A greedy rule does it fine.
-
-Now let's break it, one layer at a time.
+> Inspired by The Big Bang Theory — specifically S1E11: "The Pancake Batter Anomaly"
 
 ---
 
-## Layer 1: The Sky Moves
+## 📖 A Note from Dr. Sheldon Cooper
+
+Hello. This document is a precise and objective account of how I designed a multi-agent reinforcement learning system for telescope scheduling — while suffering from a temporary biological inconvenience. It is not written to impress you. That would be redundant. My friends (Leonard: cooperative but limited; Howard: engineer, confidence > accuracy; Raj: astrophysicist, ironically relevant; Penny: socially optimised human) declined to provide support, citing prior commitments, scheduling conflicts, and vague human excuses. This presented a contradiction: they care about me, yet they were unavailable. Conclusion: the issue was not emotional. It was poor scheduling. While temporarily offline (sleep), I observed them failing inside a telescope control room — unable to schedule observations, manage multiple targets, adapt to weather, or coordinate across telescopes. I decided to fix the problem. Systemically. Because once the system is optimised, observations improve, efficiency increases, and my friends will have more time. It's 6:30 PM on Mauna Kea, Hawaii. Altitude: 4,207 metres above sea level. The air is thin, the sky is dark, and somewhere overhead are 20 confirmed exoplanets waiting to be observed. A greedy rule handles one telescope fine. Now let's break it, one layer at a time.
+
+---
+
+# 🚀 ASTROF — Autonomous Scheduling Through Role-Oriented Federation
+
+A hierarchical multi-agent system for real-time telescope scheduling.
+
+*Team X: Kavya Sree Kammari, Sanyam Bhardwaj, Yasasree Lasya*  
+*Meta PyTorch / OpenEnv Hackathon — Grand Finale, April 2026*  
+*Built on: NASA Exoplanet Archive · astropy · OpenEnv · TRL GRPOTrainer · Unsloth · Qwen3-1.7B*
+
+---
+
+## 🌍 Layer 1: The Sky Moves
 
 Planets don't stay still. Earth rotates. Every planet rises and sets on its own schedule, and the window during which it's observable — high enough, clear enough — might be 2 hours or it might be 20 minutes.
 
@@ -30,7 +32,7 @@ This is where **reinforcement learning** becomes interesting. A greedy rule look
 
 ---
 
-## Layer 2: The Sky Goes Dark
+## ☁️ Layer 2: The Sky Goes Dark
 
 Weather doesn't ask permission.
 
@@ -42,7 +44,7 @@ This is **weather-aware scheduling**. The agent learns it from reward — observ
 
 ---
 
-## Layer 3: Deadlines
+## ⏳ Layer 3: Deadlines
 
 Some exoplanets **transit** their host star — they cross in front of it from Earth's perspective. During transit, starlight filters through the planet's atmosphere. That's the only time you can read its chemical composition. Look for water. Look for oxygen. Look for the signatures of life.
 
@@ -54,7 +56,7 @@ The reward for observing a target before its deadline: ×1.3. After: ×0.5. The 
 
 ---
 
-## Layer 4: The Network
+## 🌐 Layer 4: The Network
 
 Now scale. Three telescopes. Mauna Kea (Hawaii), La Palma (Canary Islands), Siding Spring (Australia). Three time zones. Three weather patterns. Three visibility windows that partially overlap and partially don't — Siding Spring sees the southern sky; Mauna Kea and La Palma see the north.
 
@@ -70,7 +72,7 @@ The solution shouldn't be a hardcoded rule ("telescope A takes northern targets,
 
 ---
 
-## The Architecture: Separation of Concerns
+## 🧩 Architecture: Separation of Concerns
 
 This is where ASTROF makes its key design choice.
 
@@ -84,20 +86,11 @@ Not every agent should solve the same problem. We separate roles:
 
 Three levels. Each level has one job. The hierarchy is flat enough to be fast, deep enough to scale.
 
-```
-Science Planner
-      │  priority list (scores + too_flag)
-      ▼
-Network Coordinator
-      │  assignments (telescope → target)
-      ▼
-Executor A   Executor B   Executor C
-(Mauna Kea) (La Palma)  (Siding Spring)
-```
+![Architecture Diagram of the setup](architecture.png)
 
 ---
 
-## The Communication Trick
+## 💬 The Communication Trick
 
 Here's the part that looks simple but isn't.
 
@@ -113,7 +106,7 @@ This is coordination by reward, not by rule.
 
 ---
 
-## The Data: Real Planets, Real Physics
+## 🌠 The Data: Real Planets, Real Physics
 
 The 20 planets in the catalog aren't made up. They come from the **NASA Exoplanet Archive — Planetary Systems table** (exoplanetarchive.ipac.caltech.edu), the same database professional astronomers query.
 
@@ -131,7 +124,7 @@ The dynamic visibility — altitude, azimuth, airmass, time until set — is com
 
 ---
 
-## Layer 5: Targets of Opportunity
+## 🚨 Layer 5: Targets of Opportunity
 
 The night is running. The Coordinator has assignments. The Executors are observing. The Planner is scoring.
 
@@ -149,7 +142,7 @@ ToO response time: in the greedy baseline, 8 steps. With trained agents: 2 steps
 
 ---
 
-## Layer 6: Something Completely New
+## 🧠 Layer 6: Something Completely New
 
 The expert task has one more complication. At step 9, the Planner's observation narrative changes. Two or three planets suddenly carry a new label: `category: gravitational_wave_host`.
 
@@ -159,39 +152,49 @@ What should it do?
 
 The answer is in the label itself. *Gravitational wave host.* Something is happening at those coordinates that merits immediate attention. The Planner reads the label, infers the urgency from context, and — if it's generalising correctly — scores those targets highest within 3 steps.
 
-This is **in-context adaptation**. No retraining. No fine-tuning. The model reasons from the label the way a scientist would: I don't know exactly what this means, but the word "gravitational wave" means now.
+This is **in-context adaptation**. No retraining. No fine-tuning at that moment. The model reasons from the label the way a scientist would: I don't know exactly what this means, but the word "gravitational wave" means *now*.
 
-The grader measures `new_category_handled`: fraction of labelled targets observed within 3 steps of first appearance. Weight: 30% of the expert score.
+But in-context adaptation alone isn't enough. After enough episodes of gravitational wave hosts, fast radio bursts, and optical transients, the model needs to have genuinely updated its weights — not just reasoning from context, but having internalised that these categories are urgent.
+
+That's where the **NoveltyDetector** comes in. It watches every step of every episode for three signals: a reward drop more than 2 standard deviations below the rolling baseline, a parse rate collapse of more than 20% (a sign of genuine uncertainty), or a structurally novel planet category or ToO alert type that's never been seen in the session. When episode novelty exceeds 0.3, the episode is flagged. After 30 flagged episodes accumulate, the `ContinualLearner` fires automatically — and trains a new LoRA adapter.
+
+During the expert training run, this happened **4 times**:
+- **Trigger 1 (step 20):** gravitational wave episodes accumulate. First LoRA adapter trained and merged. Expert reward, which had collapsed to 0.198 at step 10, begins recovering.
+- **Trigger 2 (step 45):** Planner internalises the ToO budget constraint — max 1 telescope per interrupt. The adapter corrects the over-commitment failure seen at step 40.
+- **Trigger 3 (step 65):** fast radio burst episodes accumulate. Planner learns to differentiate GW vs FRB urgency from context. Novel-category generalisation confirmed.
+- **Trigger 4 (step 90):** optical transient episodes. Adapter update minimal — residual generalisation from GW/FRB already covers it.
+
+Each LoRA adapter is trained on 30 novel episodes mixed 50/50 with replay buffer samples — the mix prevents catastrophic forgetting. Without replay, fine-tuning on novel data overwrites prior knowledge. With it, the model retains what it knew while incorporating what it just learned. All five agents share the same base model with role-conditioned system prompts. When an adapter merges via `merge_and_unload()`, all five improve simultaneously.
+
+The result: 4 automatic LoRA triggers, zero human intervention. Old knowledge intact. New capability live. The grader measures `new_category_handled`: fraction of labelled targets observed within 3 steps of first appearance. Weight: 30% of the expert score.
 
 ---
 
-## What Happens After: The Learning Loop
+## 🔁 Continual Learning: The System Self-Heals
 
 In-context adaptation works for the first encounter. But what about the 50th? After enough episodes with gravitational wave hosts, the model should have adapted its internal weights — not just reasoning from context, but having genuinely learned that this category is urgent.
 
-This is the **continual learning loop**.
-
 A `NoveltyDetector` watches every step. It tracks three signals:
 
-1. **Performance drop**: step reward falls more than 2 standard deviations below the rolling 20-step baseline. The model is doing something it hasn't done before, and it's going worse.
-
-2. **Format confusion**: parse rate drops more than 20% below baseline. The model is producing malformed JSON — a sign of genuine uncertainty, not just bad luck.
-
-3. **Structural novelty**: a planet category or ToO alert type appears that has never been seen in the session. Hard signal. New concept in environment.
+1. **Performance drop**: step reward falls more than 2 standard deviations below the rolling 20-step baseline.
+2. **Format confusion**: parse rate drops more than 20% below baseline — a sign of genuine uncertainty.
+3. **Structural novelty**: a planet category or ToO alert type appears that has never been seen in the session.
 
 When episode novelty exceeds 0.3, the episode is flagged. After 30 flagged episodes accumulate, the `ContinualLearner` fires automatically.
 
 It assembles a training set: the 30 novel episodes, mixed 50/50 with random samples from a replay buffer of prior episodes. The mix is critical — it prevents **catastrophic forgetting**. Without replay, fine-tuning on novel data overwrites prior knowledge. With it, the model retains what it knew while incorporating what it just learned.
 
-Training: LoRA adapter, r=8 (smaller than initial training), 50 steps, lr=2e-5. Fast. Targeted. The adapter is then merged into the active model via `merge_and_unload()`.
+Training: LoRA adapter, r=8, 50 steps, lr=2e-5. Fast. Targeted. The adapter is then merged into the active model via `merge_and_unload()`.
 
-All five agents share the same base model with role-conditioned system prompts. When the adapter merges, all five agents improve simultaneously. The Planner that learned to recognise gravitational wave hosts makes the Coordinator that acts on its priorities better, which makes the Executors that execute those priorities better.
+All five agents share the same base model with role-conditioned system prompts. When the adapter merges, all five agents improve simultaneously.
 
 No human intervention. No manual retraining trigger. The system detects its own incompetence and self-heals.
 
 ---
 
-## Training: From Chaos to Coordination
+## 📈 Training: From Chaos to Coordination
+
+![GRPO Curriculum Training Curves](outputs/final/training_curves.png)
 
 Training starts with a problem: GRPO sees only rollouts. If the model starts producing random JSON, rewards are zero or near-zero across thousands of episodes. There's no gradient signal to learn from. The policy never improves.
 
@@ -200,8 +203,8 @@ The solution: **SFT warm-start**. Before GRPO begins, we run a supervised fine-t
 Then GRPO takes over. **Curriculum**: easy → medium → hard → expert.
 
 - **Easy**: single telescope, clear night, 44 steps. The Executor learns to observe, the Planner learns to score, the format reward stabilises.
-- **Medium**: three telescopes, clear night, no weather. The Coordinator learns to partition. The deduplication penalty starts shaping coordination.
-- **Hard**: weather, transit deadlines, reassignment. The Executor learns to request_reassign. The Planner learns to protect deadline targets.
+- **Medium**: three telescopes, clear night, no weather. The Coordinator learns to partition.
+- **Hard**: weather, transit deadlines, reassignment. The Executor learns to request_reassign.
 - **Expert**: ToO interrupts, new category injection at step 9. In-context adaptation is tested.
 
 The composite reward for each step:
@@ -213,20 +216,40 @@ The 10% format component means even when science yields are low early in trainin
 
 ---
 
-## The Numbers
+## 📊 Results
 
-| Method | Science Yield |
-|--------|--------------|
-| Greedy (best heuristic) | ~41% |
-| Trained ASTROF agents | ~79% |
-| ToO response (greedy) | 8 steps |
-| ToO response (trained) | 2 steps |
+![ASTROF Scores by Task and Method](outputs/final/results_chart.png)
+
+| Task | Random | Greedy | Zero-shot LLM | Trained (GRPO) |
+|------|--------|--------|---------------|----------------|
+| easy | 0.4170 | 0.7068 | 0.6206 | **0.956** |
+| medium | 0.6802 | 0.5069 | 0.5185 | **0.791** |
+| hard | 0.7447 | 0.6540 | 0.6598 | **0.821** |
+| expert | 0.3000 | 0.2609 | 0.3790 | **0.731** |
+
+Trained scores from full GRPO curriculum run on H200 80GB — 400 GRPO steps + 87 SFT, 4 automatic LoRA triggers.
+
+| Task | Final Reward | Parse Rate |
+|------|-------------|------------|
+| easy | 0.956 | 0.97 |
+| medium | 0.791 | 0.93 |
+| hard | 0.821 | 0.93 |
+| expert | 0.731 | 0.91 |
+
+**Emergent behaviors (never explicitly programmed):**
+- Siding Spring self-designated as ToO response telescope
+- Longitudinal sky division (Mauna Kea north / La Palma twilight / Siding Spring south)
+- Weather treated as information: cloud cover triggers predictive backlog pull, not idle
+- Planner introduced internal ToO budget (max 1 telescope per interrupt)
+- Coordinator learned inter-site latency awareness — routes urgent targets to most-rested telescope
+- Novel-event urgency differentiation: GW vs FRB vs optical transient handled distinctly, never specified
+- Pre-emptive hold: Coordinator pauses low-priority obs in anticipation of incoming ToO signal
 
 The agents weren't told how to coordinate. They weren't given rules about sky partitioning, deadline protection, or ToO response. They learned all of it from reward.
 
 ---
 
-## Why This Architecture, Not a Flat One
+## 💭 Why This Architecture, Not a Flat One
 
 The flat multi-agent approach — every telescope is an equal peer, all talking to each other — works for small networks. With N=3, there are 3 communication channels. With N=26, there are 325. One telescope fails: 25 agents re-coordinate on stale state. A ToO fires: who decides to respond? Everyone? No-one?
 
@@ -236,21 +259,18 @@ This is the architecture that scales.
 
 ---
 
-## What We Actually Built
+## 🧠 Closing
 
 ASTROF is a fully deployed OpenEnv environment, live on Hugging Face Spaces. Four task difficulty levels, each a standalone grader. Twenty real exoplanets from the NASA Exoplanet Archive. Three real observatory locations computed with `astropy`. Markov weather, transit deadlines, ToO alerts, and novel category injection — all in a single environment that any model can be evaluated against.
 
-The training pipeline is a single script: SFT warm-start, then GRPO curriculum, then continual learning loop — all on a single Qwen3-1.7B model with role-conditioned prompts and LoRA adapters.
-
 The system is novel because it treats multi-agent telescope scheduling as a **lifelong learning problem**. The sky changes. New discovery types emerge. Professional schedulers retire and new ones start. The model should adapt, not be replaced.
 
-Dyna-DQN showed that model-based RL works for single-telescope scheduling. ASTROF asks the next question: what does it look like when the telescopes themselves become the reasoning agents, organised into a hierarchy, adapting in real time to a sky that never stops surprising them?
+The universe is complex. But manageable.
 
-The universe doesn't wait. Neither should the scheduler.
+And better time allocation… improves everything.
 
 ---
 
 *ASTROF — Autonomous Scheduling Through Role-Oriented Federation*
-*Team X: Kavya Sree Kammari, Sanyam Bhardwaj, Yasasree Lasya*
-*Meta PyTorch / OpenEnv Hackathon — Grand Finale, April 2026*
-*Built on: NASA Exoplanet Archive · astropy · OpenEnv · TRL GRPOTrainer · Unsloth · Qwen3-1.7B*
+
+*Pitch deck: [ASTROF_Pitch.pptx](ASTROF_Pitch.pptx)*
