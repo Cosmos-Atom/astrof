@@ -6,7 +6,7 @@
 
 ## 📖 A Note from Dr. Sheldon Cooper
 
-Hello. This document is a precise and objective account of how I designed a multi-agent reinforcement learning system for telescope scheduling — while suffering from a temporary biological inconvenience. It is not written to impress you. That would be redundant. My friends (Leonard: cooperative but limited; Howard: engineer, confidence > accuracy; Raj: astrophysicist, ironically relevant; Penny: socially optimised human) declined to provide support, citing prior commitments, scheduling conflicts, and vague human excuses. This presented a contradiction: they care about me, yet they were unavailable. Conclusion: the issue was not emotional. It was poor scheduling. While temporarily offline (sleep), I observed them failing inside a telescope control room — unable to schedule observations, manage multiple targets, adapt to weather, or coordinate across telescopes. I decided to fix the problem. Systemically. Because once the system is optimised, observations improve, efficiency increases, and my friends will have more time. It's 6:30 PM on Mauna Kea, Hawaii. Altitude: 4,207 metres above sea level. The air is thin, the sky is dark, and somewhere overhead are 20 confirmed exoplanets waiting to be observed. A greedy rule handles one telescope fine. Now let's break it, one layer at a time.
+Hello. This document is a precise and objective account of how I, the great and genius Dr. Sheldon Cooper designed a multi-agent reinforcement learning system for telescope scheduling — while suffering from a temporary biological inconvenience. It is not written to impress you. That would be redundant. My friends (Leonard: cooperative but limited; Howard: engineer, confidence > accuracy; Raj: astrophysicist, ironically relevant; Penny: socially optimised human) declined to provide support, citing prior commitments, scheduling conflicts, and vague human excuses. This presented a contradiction: they care about me, yet they were unavailable. Conclusion: the issue was not emotional. It was poor scheduling. While temporarily offline (sleep), I observed them failing inside a telescope control room — unable to schedule observations, manage multiple targets, adapt to weather, or coordinate across telescopes. I decided to fix the problem. Systemically. Because once the system is optimised, observations improve, efficiency increases, and my friends will have more time. It's 6:30 PM on Mauna Kea, Hawaii. Altitude: 4,207 metres above sea level. The air is thin, the sky is dark, and somewhere overhead are 20 confirmed exoplanets waiting to be observed. A greedy rule handles one telescope fine. Now let's break it, one layer at a time.
 
 ---
 
@@ -14,7 +14,7 @@ Hello. This document is a precise and objective account of how I designed a mult
 
 A hierarchical multi-agent system for real-time telescope scheduling.
 
-*Team X: Kavya Sree Kammari, Sanyam Bhardwaj, Yasasree Lasya*  
+*Team X: Kavya Sree Kammari, Sanyam Bhardwaj, Yasasree Lasya Annambhotla*  
 *Meta PyTorch / OpenEnv Hackathon — Grand Finale, April 2026*  
 *Built on: NASA Exoplanet Archive · astropy · OpenEnv · TRL GRPOTrainer · Unsloth · Qwen3-1.7B*
 
