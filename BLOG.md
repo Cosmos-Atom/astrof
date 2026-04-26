@@ -31,7 +31,7 @@ A hierarchical multi-agent system for real-time telescope scheduling.
 *Team X: Kavya Sree Kammari, Sanyam Bhardwaj, Yasasree Lasya Annambhotla*  
 *Meta PyTorch / OpenEnv Hackathon — Grand Finale, April 2026*  
 *Built on: NASA Exoplanet Archive · astropy · OpenEnv · TRL GRPOTrainer · Unsloth · Qwen3-1.7B*
-
+*Themes: Multi-Agent Interactions, Long-Horizon Planning, Lifelong Learning*
 ---
 
 ## 🌍 Layer 1: The Sky Moves
