@@ -17,6 +17,7 @@ Built on real NASA Exoplanet Archive data and astropy physics.
 
 ## Links
 
+| | |
 |---|---|
 | 🎬 Vlog | [YouTube](https://youtu.be/jBWHEfqKnSE) |
 | 📖 Blog | [BLOG.md](BLOG.md) |
