@@ -3,6 +3,20 @@
 > Inspired by The Big Bang Theory — specifically S1E11: "The Pancake Batter Anomaly"
 
 ---
+## Links
+
+| | |
+|---|---|
+| 🎬 Vlog | [YouTube](https://youtu.be/jBWHEfqKnSE) |
+| 📖 Blog | [BLOG.md](BLOG.md) |
+| ❓ FAQ | [FAQ.md](FAQ.md) |
+| 🎓 Training (Colab) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Cosmos-Atom/astrof/blob/main/train_astrof.ipynb) |
+| 🤗 HF Space | [Cosmosatom/astrof](https://huggingface.co/spaces/Cosmosatom/astrof) |
+| 📊 Pitch Deck | [ASTROF_Pitch.pptx](ASTROF_Pitch.pptx) |
+
+---
+
+---
 
 ## 📖 A Note from Dr. Sheldon Cooper
 
